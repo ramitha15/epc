@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -e
+
+LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$SNAP/usr/lib/i386-linux-gnu"
+export LD_LIBRARY_PATH
+
+# locales are missing and break startup
+export LC_ALL=C
+
+# ran generates config and writes logs and slots in current directory by default
+cd "$SNAP_DATA"
+
+exec "$SNAP/rancli" "$@"

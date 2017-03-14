@@ -1,0 +1,79 @@
+#!/bin/sh
+
+set -e
+
+ensure_kernel() {
+    local kconfig="/boot/config-`uname -r`"
+    local configs="CONFIG_IP_MULTICAST CONFIG_IP_MROUTE CONFIG_NET_IPIP CONFIG_TUN CONFIG_IP_SCTP"
+    local conf
+    local bail
+
+    bail=no
+
+    if ! [ -f "$kconfig" ]; then
+        echo "Can't find kernel config at $kconfig" >&2
+        return 1
+    fi
+
+    for conf in $configs; do
+        if grep -q "^# $conf is not set\$" "$kconfig"; then
+            echo "$conf is not set" >&2
+            bail=yes
+        elif ! grep -q "^$conf=[my]\$" "$kconfig"; then
+            echo "$conf not found" >&2
+        fi
+    done
+
+    if [ "$bail" = yes ]; then
+        return 2
+    fi
+    return 0
+}
+
+ensure_forwarding() {
+    local var="net.ipv4.ip_forward"
+
+    if [ "$(sysctl -n $var)" != 1 ]; then
+        echo "Forwarding not set" >&2
+        return 1
+    fi
+    return 0
+}
+
+ensure_dongle_support() {
+    local process
+
+    if ! dpkg -l aksusbd 2>/dev/null | grep -q ^ii; then
+        echo "Sentinel LDK daemon not installed" >&2
+        return 1
+    fi
+
+    for process in \
+        "/usr/sbin/aksusbd" "/usr/sbin/hasplmd -s" "/usr/sbin/winehasp"; do
+        if [ "$(pgrep -c -u root -fx "$process")" != 1 ]; then
+            echo "Process \"$process\" not found" >&2
+            return 1
+        fi
+    done
+    return 0
+}
+
+if ! ensure_kernel; then
+    echo "Kernel tests failed" >&2
+    exit 1
+fi
+echo "Kernel tests successful" >&2
+
+if ! ensure_forwarding; then
+    echo "Forwarding test failed" >&2
+    exit 1
+fi
+echo "Forwarding test successful" >&2
+
+if ! ensure_dongle_support; then
+    echo "Dongle support not installed or not running" >&2
+    # non-fatal; might be installed manually or using license server
+else
+    echo "Dongle support installed and running"
+fi
+
