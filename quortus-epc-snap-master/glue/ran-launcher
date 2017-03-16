@@ -9,6 +9,9 @@ LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$SNAP/usr/lib/i386-linux-gnu"
 # locales are missing and break startup
 export LC_ALL=C
 
+# enable IP forwarding
+sysctl net.ipv4.ip_forward=1
+
 # ran generates config and writes logs and slots in current directory by default
 cd "$SNAP_DATA"
 

@@ -1,4 +1,4 @@
-name: quortus-epc-lool
+name: quortus-epc
 version: 3.97.1
 summary: Quortus ECX core network for cellular network
 description: |
@@ -17,6 +17,9 @@ apps:
     daemon: simple
   rancli:
     command: rancli-launcher
+  lighttpd:
+    command: lighttpd-launcher
+    daemon: simple
 
 parts:
   # debs part require installation of i386 packages
@@ -43,11 +46,25 @@ parts:
     # don't copy missing shared libs
     build-attributes: [ no-system-libraries, ]
     install: |
+      # rancli -> ran symlink
       ln -sf ran $SNAPCRAFT_PART_INSTALL/rancli
+      # unpack lighttpd binaries into snap
+      tar -C $SNAPCRAFT_PART_INSTALL -xf lighttpd.tar.gz
+      # unpack www files into snap
+      mkdir $SNAPCRAFT_PART_INSTALL/www
+      tar -C $SNAPCRAFT_PART_INSTALL/www -xf soapWebscreensx86.tar
+      # replace dirs with symlinks to rw space
+      rm -rf $SNAPCRAFT_PART_INSTALL/www/fingerprinted
+      ln -snf /var/snap/quortus-epc/current/fingerprinted $SNAPCRAFT_PART_INSTALL/www/fingerprinted
+      rm -rf $SNAPCRAFT_PART_INSTALL/settings
+      ln -snf /var/snap/quortus-epc/current/settings $SNAPCRAFT_PART_INSTALL/settings
     stage:
       - ran
       - rancli
       - lib/*.so*
+      - lighttpd
+      - settings
+      - www
 
   glue:
     plugin: dump

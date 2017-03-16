@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+mkdir -p $SNAP_DATA/fingerprinted
+mkdir -p $SNAP_DATA/run
+mkdir -p $SNAP_DATA/settings
+mkdir -p $SNAP_DATA/www-logs
+
+cd $SNAP
+exec lighttpd/lighttpd -f lighttpd.conf -m lighttpd -D
