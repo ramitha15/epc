@@ -70,10 +70,10 @@ if ! ensure_forwarding; then
 fi
 echo "Forwarding test successful" >&2
 
-if ! ensure_dongle_support; then
-    echo "Dongle support not installed or not running" >&2
-    # non-fatal; might be installed manually or using license server
-else
-    echo "Dongle support installed and running"
-fi
+#if ! ensure_dongle_support; then
+#    echo "Dongle support not installed or not running" >&2
+#    # non-fatal; might be installed manually or using license server
+#else
+#    echo "Dongle support installed and running"
+#fi
 
