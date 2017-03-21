@@ -6,8 +6,10 @@ description: |
   It supports 4G LTE, 3G and GSM radio networks with VoLTE / SIP voice, packet
   data and SMS, either in a standalone deployment or with operator interconnect.
   ECX Core is designed for scalability.
-grade: devel
-confinement: devmode
+#grade: devel
+grade: stable
+#confinement: devmode
+confinement: strict
 
 apps:
   check-sys:
@@ -15,11 +17,14 @@ apps:
   ran:
     command: ran-launcher
     daemon: simple
+    plugs: [network,network-control,firewall-control]
   rancli:
     command: rancli-launcher
+    plugs: [network]
   lighttpd:
     command: lighttpd-launcher
     daemon: simple
+    plugs: [network-bind]
 
 parts:
   # debs part require installation of i386 packages
