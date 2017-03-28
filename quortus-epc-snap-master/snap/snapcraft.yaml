@@ -12,8 +12,11 @@ grade: stable
 confinement: strict
 
 apps:
+  core:
+    command: core-launcher
   check-sys:
     command: check-sys
+    plugs: [firewall-control]
   ran:
     command: ran-launcher
     daemon: simple
