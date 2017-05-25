@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set -e
+
+ensure_kernel() {
+sudo sysctl -w kernel.core_pattern='|/usr/bin/tee /tmp'
+}
+
+
+ensure_forwarding
+
