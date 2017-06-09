@@ -1,5 +1,5 @@
 name: quortus-epc
-version: 3.97.1
+version: 3.97.400
 summary: Quortus ECX core network for cellular network
 description: |
   Quortus ECX Core is a fully-featured virtualized core for cellular networks.
@@ -47,9 +47,9 @@ parts:
     stage-packages: ["libstdc++6:i386", ]
 
   # Quortus ECX prebuilt binaries
-  ran:
+  ran: 
     plugin: dump
-    source: ran_V3_97_1.gz
+    source: ran_PocketEPC_HAW40.gz
     source-type: tar
     # don't copy missing shared libs
     build-attributes: [ no-system-libraries, ]
@@ -68,6 +68,8 @@ parts:
       ln -snf /var/snap/quortus-epc/current/settings $SNAPCRAFT_PART_INSTALL/settings
     stage:
       - ran
+      - ecx.db
+      - hlr.db
       - rancli
       - lib/*.so*
       - lighttpd

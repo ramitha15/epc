@@ -18,5 +18,18 @@ ulimit -c unlimited
 
 # ran generates config and writes logs and slots in current directory by default
 cd "$SNAP_DATA"
+#cd "$SNAP"
+# Copy the ecx.db and hlr.db for the first intall to SNAP directory.
+ecx_db="$SNAP_DATA/ecx.db"
+
+if [ ! -f "$ecx_db" ]; then
+	cp "$SNAP/ecx.db" $ecx_db
+fi
+
+hlr_db="$SNAP_DATA/hlr.db"
+
+if [ ! -f "$hlr_db" ]; then
+	cp "$SNAP/hlr.db" $hlr_db
+fi
 
 exec "$SNAP/ran" "$@"
