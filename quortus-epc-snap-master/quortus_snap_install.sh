@@ -6,7 +6,7 @@
 snap remove quortus-epc
 echo "quortus-epc snap removed from the system"
 #Installing Quortus snap
-snap install quortus-epc_3.97.405_amd64.snap --dangerous
+snap install quortus-epc_3.97.408_amd64.snap --dangerous
 echo "quortus-epc snap installed "
 #Connecting required slots with plugs
 snap connect quortus-epc:firewall-control

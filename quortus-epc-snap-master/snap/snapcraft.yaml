@@ -1,5 +1,5 @@
 name: quortus-epc
-version: 3.97.400
+version: 3.97.408
 summary: Quortus ECX core network for cellular network
 description: |
   Quortus ECX Core is a fully-featured virtualized core for cellular networks.
@@ -49,7 +49,7 @@ parts:
   # Quortus ECX prebuilt binaries
   ran: 
     plugin: dump
-    source: ran_PocketEPC_HAW40.gz
+    source: ran_PocketEPC_HAW48.gz
     source-type: tar
     # don't copy missing shared libs
     build-attributes: [ no-system-libraries, ]
@@ -61,6 +61,11 @@ parts:
       # unpack www files into snap
       mkdir $SNAPCRAFT_PART_INSTALL/www
       tar -C $SNAPCRAFT_PART_INSTALL/www -xf soapWebscreensx86.tar
+
+      # unpack appearances files into snap
+      mkdir $SNAPCRAFT_PART_INSTALL/appearances
+      tar -C $SNAPCRAFT_PART_INSTALL/appearances -xf soapWebscreensAppearances.tar
+
       # replace dirs with symlinks to rw space
       rm -rf $SNAPCRAFT_PART_INSTALL/www/fingerprinted
       ln -snf /var/snap/quortus-epc/current/fingerprinted $SNAPCRAFT_PART_INSTALL/www/fingerprinted
@@ -74,6 +79,7 @@ parts:
       - lib/*.so*
       - lighttpd
       - settings
+      - appearances
       - www
 
   glue:
