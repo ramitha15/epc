@@ -20,6 +20,7 @@ apps:
   ran:
     command: ran-launcher
     daemon: simple
+    restart-condition: always
     plugs: [network,network-control,firewall-control]
   rancli:
     command: rancli-launcher
