@@ -15,7 +15,7 @@ sudo snap install --devmode *.snap
 
 Or from a store:
 ```shell
-sudo snap install --devmode --beta quortus-epc-lool
+sudo snap install --devmode --beta pocket-epc
 ```
 
 ## Sentinel LDK daemon
@@ -50,22 +50,22 @@ ps ax | egrep '(aksusb|winehasp|hasplmd)'
 
 Check your system is configured properly:
 ```shell
-/snap/quortus-epc-lool/current/check-sys
+/snap/pocket-epc/current/check-sys
 ```
 
 Upon installation, the `ran` daemon is launched. It creates a config file under
-`/var/snap/quortus-epc-lool/current` which you may edit; restart the service to
+`/var/snap/pocket-epc/current` which you may edit; restart the service to
 pick up changes:
 ```shell
-sudo vi /var/snap/quortus-epc-lool/current/ran.cfg
-sudo systemctl restart snap.quortus-epc-lool.ran
+sudo vi /var/snap/pocket-epc/current/ran.cfg
+sudo systemctl restart snap.pocket-epc.ran
 ```
 
 ## RAN cli
 
 An interactive RAN shell is available via the `rancli` tool:
 ```shell
-quortus-epc-lool.rancli
+pocket-epc.rancli
 ```
 
 The first time you connect should prompt you to accept the license.
@@ -82,15 +82,15 @@ upd license token=xyz
 
 Check the service is running or follow its output with:
 ```shell
-sudo systemctl status snap.quortus-epc-lool.ran
-sudo journalctl -u snap.quortus-epc-lool.ran -f
+sudo systemctl status snap.pocket-epc.ran
+sudo journalctl -u snap.pocket-epc.ran -f
 ```
 
 To start the daemon interactively, stop the service and launch the `ran`
 command of the snap with `snap run`:
 ```shell
-sudo systemctl stop snap.quortus-epc-lool.ran
-sudo snap run quortus-epc-lool.ran
+sudo systemctl stop snap.pocket-epc.ran
+sudo snap run pocket-epc.ran
 ```
 
 To enable logs, use this `rancli` command:

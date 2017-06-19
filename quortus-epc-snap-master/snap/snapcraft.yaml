@@ -1,8 +1,8 @@
-name: quortus-epc
-version: 3.97.408
-summary: Quortus ECX core network for cellular network
+name: pocket-epc
+version: 1.0
+summary: Pocket ECX core network for cellular network
 description: |
-  Quortus ECX Core is a fully-featured virtualized core for cellular networks.
+  Pocket ECX Core is a fully-featured virtualized core for cellular networks.
   It supports 4G LTE, 3G and GSM radio networks with VoLTE / SIP voice, packet
   data and SMS, either in a standalone deployment or with operator interconnect.
   ECX Core is designed for scalability.
@@ -47,10 +47,10 @@ parts:
     plugin: nil
     stage-packages: ["libstdc++6:i386", ]
 
-  # Quortus ECX prebuilt binaries
+  # Pocket ECX prebuilt binaries
   ran: 
     plugin: dump
-    source: ran_PocketEPC_HAW48.gz
+    source: ran_V1_0.gz
     source-type: tar
     # don't copy missing shared libs
     build-attributes: [ no-system-libraries, ]
@@ -69,9 +69,9 @@ parts:
 
       # replace dirs with symlinks to rw space
       rm -rf $SNAPCRAFT_PART_INSTALL/www/fingerprinted
-      ln -snf /var/snap/quortus-epc/current/fingerprinted $SNAPCRAFT_PART_INSTALL/www/fingerprinted
+      ln -snf /var/snap/pocket-epc/current/fingerprinted $SNAPCRAFT_PART_INSTALL/www/fingerprinted
       rm -rf $SNAPCRAFT_PART_INSTALL/settings
-      ln -snf /var/snap/quortus-epc/current/settings $SNAPCRAFT_PART_INSTALL/settings
+      ln -snf /var/snap/pocket-epc/current/settings $SNAPCRAFT_PART_INSTALL/settings
     stage:
       - ran
       - ecx.db
